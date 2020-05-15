@@ -1,32 +1,36 @@
 package connector;
 
 import (
-  "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/sqlite"
-  "models"
+  "fmt"
+  _ "github.com/mattn/go-sqlite3"
+      "xorm.io/xorm"
+  "github.com/moovlin/localtodo/pkg/models"
 )
-
-type DBConnection struct {
-  db *DB
+var (
+  Db *xorm.Engine
   err error
   connected bool
-}
+)
 
-func (conn DBConnection) connect(db_path string) {
-  if conn.connected == false{
-    conn.db, conn.err = gorm.Open("sqlite3", db_path);
-    conn.connected = true;
+
+func Connect(db_path string) {
+  if connected == false{
+    Db, err = xorm.NewEngine("sqlite3", db_path);
+    connected = true;
   }
-  if conn.err != nil {
+  if err != nil {
+    fmt.Println(err.Error())
     panic("failed to connect to db");
   }
-  defer conn.db.close();
+  return
 }
 
-func (conn DBConnection) close_conn(){
-  conn.db.close();
+func CloseConn(){
+  Db.Close()
+  connected = false;
 }
 
-func (conn DBConnection) migrate(){
-  conn.db.AutoMigrate(&Directory{}, &TodoBase{}, &Todo{});
+func Migrate(){
+  Db.Sync2(new(models.Directory))
+  Db.Sync2(new(models.Todo))
 }

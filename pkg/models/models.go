@@ -1,34 +1,25 @@
 package models
 
 import (
-  "github.com/jinzhu/gorm"
-  _ "github.com/jinzhu/gorm/dialects/sqlite"
+  "time"
 )
 
 
 type Todo struct {
-  gorm.Model
-
-  // PKey
-  TodoID []uint `gorm:"primary_key;AUTO_INCREMENT"`
+  Id int64
 
   // ToDo information
   TodoLevel uint
-  text string `gorm:"not null;size:512"`
-  completed bool
+  Text string `xorm:"notnull varchar(512)"`
+  Completed bool
+  Created time.Time `xorm:"created"`
+  Updated time.Time `xorm:"updated"`
 
-}
-
-type TodoBase struct {
-  gorm.Model
-  Todos []Todo  `gorm:"foreignkey:TodoID"`
-  DirID uint  `gorm:"primary_key"`
 }
 
 type Directory struct {
-  gorm.Model
-  Path string `gorm:"primary_key"`
-  Todos TodoBase `gorm:"foreignkey:DirID"`
+  Path string `xorm:"pk varchar(1024)"`
+  Todos []Todo
 }
 
 
