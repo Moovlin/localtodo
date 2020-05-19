@@ -7,7 +7,7 @@ import (
 )
 
 var(
-  confPath string
+  ConfPath string
   Conf ConfStruct
 )
 
@@ -17,10 +17,10 @@ type ConfStruct struct {
   DBPath string
 }
 
-func LoadJSONtoStruct(){
+func LoadConfig(){
   var confJson []byte
   var err error
-  confJson, err = ioutil.ReadFile(confPath)
+  confJson, err = ioutil.ReadFile(ConfPath)
   if err != nil{
     fmt.Println(err.Error())
     panic("Error opening config")
@@ -31,7 +31,7 @@ func LoadJSONtoStruct(){
 func SaveConfig(){
   data, _ := json.Marshal(Conf)
   var writeData = []byte(data)
-  var err = ioutil.WriteFile(confPath, writeData, 0644)
+  var err = ioutil.WriteFile(ConfPath, writeData, 0644)
   if err != nil{
     fmt.Println(err.Error())
     panic("Error writing conf to disk")
@@ -39,6 +39,6 @@ func SaveConfig(){
 }
 
 func SaveDefaultConfig(){
-  Conf = ConfStruct{CollapseAll: true, UncolHighlight: true, DBPath: "/home"}
+  Conf = ConfStruct{CollapseAll: true, UncolHighlight: true, DBPath: "/home/sinn3r/.localtodo/todo.db"}
   SaveConfig()
 }

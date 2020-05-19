@@ -20,7 +20,8 @@ type Todo struct {
 }
 
 type Directory struct {
-  Path string `xorm:"pk varchar(1024)"`
+  Path string `xorm:"unique"`
+  Id int64
   Todos []Todo
 }
 

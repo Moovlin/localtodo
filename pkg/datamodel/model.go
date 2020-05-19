@@ -10,6 +10,8 @@ func OpenConnection(path string){
   connector.Connect(path)
 }
 
+
+// Retrive Methods
 func GetTodosInDirectory(dir *models.Directory){
   var db = connector.Db
 
@@ -41,6 +43,8 @@ func GetAllTodos(dirs []models.Directory){
   }
 }
 
+
+// Create/Update Methods
 func AddNewTodo(dir *models.Directory, newTodo *models.Todo){
   var db = connector.Db
 
@@ -70,6 +74,14 @@ func AddNewDirectory(dir *models.Directory) error{
   var db = connector.Db
 
   var _, err = db.Insert(dir)
+  return err
+}
+
+// Delete records
+func TrueDeleteDirectory(dir *models.Directory) error {
+  var db = connector.Db
+
+  var _, err = db.Delete(dir)
   return err
 }
 
